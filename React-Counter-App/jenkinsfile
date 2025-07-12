@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE_NAME = "react-counter-app"
+        CONTAINER_NAME = "${IMAGE_NAME}-container"
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'REACT_COUNTER_APP_GIT_URL', variable: 'GIT_URL_SECRET')]) {                    
+                        git branch: 'main', url: "${env.GIT_URL_SECRET}"
+                    }
+                }
+            }
+        }
+        stage('Lint and Build') {
+            steps {
+                withCredentials([string(credentialsId: 'VITE_LAST_FM_API_KEY', variable: 'API_SECRET')]) {
+                    sh '''
+                        npm install
+                        npm run lint
+                        npm run build
+                    '''
+                }
+            }
+        }
+        stage('Get Current Version') {
+            steps {
+                script {
+                    def majorVersion = 1
+                    def minorVersion = env.BUILD_NUMBER.toInteger()
+                    env.VERSION_TAG = "v${majorVersion}.${String.format('%02d', minorVersion)}"
+                    echo "Current version: ${env.VERSION_TAG}"
+                }
+            }
+        }
+        stage('Build & Push Docker Image') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        def imageTag = "${DOCKER_USER}/${IMAGE_NAME}:${VERSION_TAG}"
+                        env.imageTag = imageTag
+
+                        sh """
+                            docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
+                            docker build -t "${imageTag}" .
+                            docker push "${imageTag}"
+                        """
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    sh 'npm test'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh '''
+                    echo "Deploying to Kubernetes..."
+                    envsubst < k8s/deployment-template.yaml > k8s/deployment.yaml
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl rollout status deployment/react-counter-deployment
+                '''
+            }
+        }
+    }
+}

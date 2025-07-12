@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-counter-app
+  labels:
+    app: react-counter-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: react-counter-app
+  template:
+    metadata:
+      labels:
+        app: react-counter-app
+    spec:
+      containers:
+        - name: react-counter-app
+          image: ${imageTag}
+          ports:
+            - containerPort: 8563
