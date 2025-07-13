@@ -1,18 +1,28 @@
-# React DevOps Pipeline
-End-to-end CI/CD pipeline for a web app (React) using Terraform, Docker, Jenkins, Kubernetes, Prometheus, Grafana, and Datadog(optional).
+# DevOps React Pipeline on AWS (Terraform + Jenkins + EKS)
 
-This project demonstrates a complete DevOps pipeline from code to production using:
-
-* **React** (Vite-based frontend)
-* **Jenkins** (Installed directly on EC2 instance)
-* **AWS EKS** (Infrastructure as Code via Terraform)
-* **Docker** (for containerization)
+![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4?logo=terraform&logoColor=white)
+![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white)
+![Jenkins](https://img.shields.io/badge/CI-Jenkins-D24939?logo=jenkins&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Orchestration-Kubernetes-326CE5?logo=kubernetes&logoColor=white)
+![React](https://img.shields.io/badge/Frontend-React-61DAFB?logo=react&logoColor=white)
+![AWS](https://img.shields.io/badge/Cloud-AWS-FF9900?logo=amazonaws&logoColor=white)
 
 ---
 
 ## ✨ Project Overview
 
-A production-ready workflow that provisions cloud infrastructure, installs Jenkins directly on an EC2 instance, and deploys a simple React counter application to AWS EKS. Perfect for showcasing DevOps practices in cloud-native environments.
+A production-grade DevOps workflow that provisions AWS infrastructure with Terraform, installs Jenkins on an EC2 instance, and deploys a containerized React counter application to an EKS cluster — perfect for showcasing CI/CD and cloud-native practices.
+
+---
+
+## 🔧 Tech Stack
+
+- **Frontend**: React (Vite)
+- **CI/CD**: Jenkins (on EC2)
+- **Infrastructure**: AWS EKS, EC2, IAM, VPC (via Terraform)
+- **Containerization**: Docker
+- **Monitoring**: Prometheus, Grafana, Datadog (optional)
+- **Deployment**: Kubernetes
 
 ---
 
@@ -47,15 +57,13 @@ A production-ready workflow that provisions cloud infrastructure, installs Jenki
                App available via ELB
 ```
 
----
-
-## 🔄 Folder Structure
+## 📁 Project Structure
 
 ```bash
 fullstack-devops-pipeline/
 ├── Terraform/
-│   ├── AWS_eks-project/       # Terraform code to provision EKS + EC2 + IAM
-│   └── Jenkins_Server/        # Jenkins installation script and config for EC2
+│   ├── AWS_eks-project/       # Terraform code to provision EKS, EC2, IAM, VPC
+│   └── Jenkins_Server/        # Jenkins installation script and EC2 setup
 ├── React-Counter-App/         # Vite-based React frontend
 │   ├── helm/                  # K8s deployment and service manifests
 │   ├── public/
@@ -70,7 +78,6 @@ fullstack-devops-pipeline/
 │   └── vite.config.js
 └── README.md
 ```
-
 ---
 
 ## ⚙️ How to Run
@@ -134,12 +141,14 @@ docker run -p 3000:3000 react-counter-app
 
 ---
 
-## ✨ Future Improvements
+## 🔧 Future Enhancements
 
-* [ ] Convert raw Kubernetes YAMLs to full Helm chart format
-* [ ] Use ECR for Docker image registry
-* [ ] Automate deployment from Jenkins to EKS
-* [ ] Add Prometheus + Grafana monitoring
+- [ ] Convert Kubernetes YAMLs into full Helm Charts
+- [ ] Push Docker images to AWS ECR
+- [ ] Automate Jenkins-to-EKS deployment pipeline
+- [ ] Add monitoring with Prometheus + Grafana
+- [ ] Optional integration with Datadog for advanced observability
+
 
 ---
 
