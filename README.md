@@ -1,4 +1,4 @@
-# Fullstack DevOps Pipeline
+# React DevOps Pipeline
 End-to-end CI/CD pipeline for a web app (React) using Terraform, Docker, Jenkins, Kubernetes, Prometheus, Grafana, and Datadog(optional).
 
 This project demonstrates a complete DevOps pipeline from code to production using:
