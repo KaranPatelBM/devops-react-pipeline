@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: react-counter-app
-          image: karanpatelbm2000/react-counter-app:latest
+          image: ${imageTag}
           ports:
             - containerPort: 8563
           resources:
