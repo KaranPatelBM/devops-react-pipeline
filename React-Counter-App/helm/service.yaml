@@ -2,11 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: react-counter-service
+  namespace: react-app
 spec:
   type: LoadBalancer
   selector:
     app: react-counter-app
   ports:
     - protocol: TCP
-      port: 80             
-      targetPort: 8563     
+      port: 80
+      targetPort: 8563
+      nodePort: 30036

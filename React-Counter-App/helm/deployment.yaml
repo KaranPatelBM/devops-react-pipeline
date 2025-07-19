@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: react-counter-app
+  namespace: react-app
   labels:
     app: react-counter-app
 spec:
@@ -16,6 +17,13 @@ spec:
     spec:
       containers:
         - name: react-counter-app
-          image: ${imageTag}
+          image: karanpatelbm2000/react-counter-app:latest
           ports:
             - containerPort: 8563
+          resources:
+            requests:
+              cpu: "500m"        # 0.5 CPU per pod
+              memory: "512Mi"    # 512 MB per pod
+            limits:
+              cpu: "1"           # Max 1 CPU per pod
+              memory: "1024Mi"   # Max 1 GB per pod
